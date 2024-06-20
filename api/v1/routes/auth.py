@@ -44,7 +44,7 @@ def register_user():
     user = User.query.filter_by(email=user_payload['email']).first()
 
     if user:
-        abort(400, description="This email address already used")
+        abort(400, description="This email address is already in use")
 
     salt = bcrypt.gensalt()
     hashed_password = bcrypt.hashpw(
@@ -54,6 +54,10 @@ def register_user():
 
     new_user = User(**user_payload)
     new_user.public_id = uuid.uuid4()
+
+    if new_user.email == 'admin@techtales.com':
+        new_user.admin = True
+
     new_user.password = hashed_password
 
     db.session.add(new_user)
@@ -92,16 +96,24 @@ def login():
 
     access_token = create_access_token(
         identity=user.email,
-        additional_claims={"public_id": user.public_id}
+        additional_claims={
+            "public_id": user.public_id,
+            "admin": user.admin,
+            "issued_at": user.token_issue_time.isoformat()
+            }
         )
     refresh_token = create_refresh_token(
         identity=user.email,
-        additional_claims={"public_id": user.public_id}
+        additional_claims={
+            "public_id": user.public_id,
+            "admin": False,
+            "issued_at": user.token_issue_time.isoformat()
+            }
         )
 
     return jsonify({"tokens": {
         "access_token": access_token,
-        "refresh_token": refresh_token
+        "refresh_token": refresh_token,
     }}), 200
 
 
@@ -145,11 +157,14 @@ def logout():
     except Exception as e:
         abort(400, description="Not a JSON")
 
+    blacklisted_tokens = []
+
     for token in jwt_tokens.values():
         # decode the token to access it's data
         decoded_token = decode_token(token)
         token_jti = decoded_token.get('jti')
-        db.session.add(TokenBlacklist(jti=token_jti))
+        blacklisted_tokens.append(TokenBlacklist(jti=token_jti))
 
+    db.session.bulk_save_objects(blacklisted_tokens)
     db.session.commit()
     return jsonify({"messege": "User has logged out successfully"}), 200

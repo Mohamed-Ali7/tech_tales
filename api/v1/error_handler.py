@@ -30,6 +30,20 @@ def handler(exc):
         "message": exc.description
     }, exc.code
 
+@app.errorhandler(403)
+def handler(exc):
+    """
+    Handles the response error when the response status code is 403
+    which means that the user is authenticated but not authorized
+    to access a specific resource or perform a specific process
+    """
+
+    print("HEEEEEEEEEEEEEEEEEEEEEERE")
+
+    return jsonify({
+        "status_code": exc.code,
+        "message": exc.description
+    }), exc.code
 
 @app.errorhandler(404)
 def handler(exc):
