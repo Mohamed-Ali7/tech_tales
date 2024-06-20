@@ -16,8 +16,7 @@ class BaseModel():
         """returns a dictionary containing all keys/values of the instance"""
         new_dict = {}
         for attr in vars(self.__class__):
-            if (attr.startswith('_')) or attr == 'to_dict'\
-                or attr == "id" or attr == "password":
+            if (attr.startswith('_')) or attr in ['to_dict', "id", "password", "admin"]:
                 continue
 
             new_dict[attr] = getattr(self, attr)

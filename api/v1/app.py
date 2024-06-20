@@ -1,8 +1,10 @@
 """This module runs the flask app"""
 
+from datetime import datetime
 from api.v1 import app, jwt
 from api.v1 import error_handler
 from api.v1.models.token_black_list import TokenBlacklist
+from api.v1.models.user import User
 
 
 @jwt.token_in_blocklist_loader
@@ -13,10 +15,14 @@ def tokens_blocklist(jwt_header, jwt_data):
     """
 
     jti = jwt_data.get('jti')
+    identity = jwt_data.get('sub')
+    token_issue_time = datetime.fromisoformat(jwt_data.get('issued_at'))
+
+    user = User.query.filter_by(email=identity).first()
 
     token = TokenBlacklist.query.filter_by(jti=jti).first()
 
-    if token:
+    if token or token_issue_time != user.token_issue_time:
         return True
     
     return False

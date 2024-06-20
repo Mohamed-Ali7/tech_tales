@@ -16,3 +16,5 @@ class User(db.Model, BaseModel):
     last_name = db.Column(db.String(128), nullable=True)
     joined_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow)
+    admin = db.Column(db.Boolean, default=False)
+    token_issue_time = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
