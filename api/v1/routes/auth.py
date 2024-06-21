@@ -38,8 +38,17 @@ def register_user():
         abort(400, description="Missing email")
     if 'password' not in user_payload:
         abort(400, description="Missing password")
+    if 'confirm_password' not in user_payload:
+        abort(400, description="Missing confirm password")
     if 'first_name' not in user_payload:
         abort(400, description="User at least must provide his/her first name")
+
+    confirm_password = user_payload.get('confirm_password')
+
+    if user_payload['password'] != confirm_password:
+        abort(400, 'The password and confirm password do not match')
+
+    del user_payload['confirm_password']
 
     user = User.query.filter_by(email=user_payload['email']).first()
 

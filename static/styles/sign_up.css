@@ -1,0 +1,172 @@
+html, body {
+    background: url('../images/sign_up_background.jpg') no-repeat center center fixed;
+    background-size: cover;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+.body_wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5); /* Add overlay for better readability */
+}
+
+header {
+    width: 100%;
+    height: 70px;
+    background-color: white;
+    background-image: url("../images/tech_tales_logo.JPG");
+    background-size: 150px;
+    background-repeat: no-repeat;
+    background-position: left 20px center;
+    box-sizing: border-box;
+}
+
+.sign_up_section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.intro_text {
+    text-align: center;
+    color: white;
+    margin-bottom: 30px;
+}
+
+.intro_text h2 {
+    font-size: 32px;
+    margin: 0;
+}
+
+.intro_text p {
+    font-size: 18px;
+    margin: 10px 0 0;
+}
+
+#sign_up_form {
+    width: 100%;
+    max-width: 450px;
+    padding: 30px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#sign_up_form h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 24px;
+    color: #333;
+}
+
+.form_group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+
+}
+
+.input_group {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+
+}
+
+.input_group i {
+    position: absolute;
+    left: 10px;
+    color: #888;
+}
+
+#sign_up_email,
+#sign_up_password,
+#sign_up_password_confirm,
+#sign_up_user_first_name,
+#sign_up_user_last_name {
+    display: block;
+    width: 100%;
+    height: 45px;
+    padding: 0 15px 0 40px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+#sign_up_email:focus,
+#sign_up_password:focus,
+#sign_up_password_confirm:focus,
+#sign_up_user_first_name:focus,
+#sign_up_user_last_name:focus {
+    border-color: #4CAF50;
+    outline: none;
+}
+
+#sign_up_submit {
+    display: block;
+    width: 100%;
+    height: 50px;
+    margin-top: 20px;
+    border-radius: 5px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#sign_up_submit:hover {
+    background-color: #45a049;
+}
+
+.sign_in_redirect {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+    color: #555;
+}
+
+.sign_in_redirect a {
+    color: #4CAF50;
+    text-decoration: none;
+}
+
+.sign_in_redirect a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .intro_text h2 {
+        font-size: 28px;
+    }
+
+    .intro_text p {
+        font-size: 16px;
+    }
+
+    #sign_up_form {
+        padding: 20px;
+    }
+}
+
+.error_message {
+    color: red;
+    font-size: 14px;
+}

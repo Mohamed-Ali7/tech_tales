@@ -3,9 +3,12 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
 from flask import Flask
+from flask_cors import CORS
 
 
 app = Flask(__name__)
+
+cors = CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqldb://{}:{}@{}/{}'.format(
     "tech_dev", "12345678", "localhost:3306", "tech_tales_dev_db"
