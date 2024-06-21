@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sign Up</title>
+  <link rel="icon" href="../static/images/tech_tales_icon.JPG" />
+  <link rel="stylesheet" href="../static/styles/sign_up.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+  <div class="body_wrapper">
+    <header></header>
+    <section class="sign_up_section">
+      <div class="intro_text">
+        <h2>Welcome to Tech Tales</h2>
+        <p>Your go-to blog for the latest in technology and innovation.</p>
+      </div>
+      <form id="sign_up_form">
+        <h1>Sign Up</h1>
+        <div class="form_group">
+          <div class="input_group">
+            <i class="fas fa-envelope"></i>
+            <input id="sign_up_email" placeholder="Your email" type="text">
+          </div>
+        </div>
+        <div class="form_group">
+          <div class="input_group">
+            <i class="fas fa-lock"></i>
+            <input id="sign_up_password" placeholder="Enter your password" type="password">
+          </div>
+        </div>
+        <div class="form_group">
+          <div class="input_group">
+            <i class="fas fa-lock"></i>
+            <input id="sign_up_password_confirm" placeholder="Confirm your password" type="password">
+          </div>
+        </div>
+        <div class="form_group">
+          <div class="input_group">
+            <i class="fas fa-user"></i>
+            <input id="sign_up_user_first_name" placeholder="Enter your first name" type="text">
+          </div>
+        </div>
+        <div class="form_group">
+          <div class="input_group">
+            <i class="fas fa-user"></i>
+            <input id="sign_up_user_last_name" placeholder="Enter your last name" type="text">
+          </div>
+        </div>
+        <input id="sign_up_submit" type="submit" value="Sign up">
+        <div class="sign_in_redirect">
+          Already have an account? <a href="login.html">Sign in</a>
+        </div>
+      </form>
+    </section>
+  </div>
+  <script src="../static/scripts/sign_up.js"></script>
+</body>
+</html>
