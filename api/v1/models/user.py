@@ -18,3 +18,4 @@ class User(db.Model, BaseModel):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow)
     admin = db.Column(db.Boolean, default=False)
     token_issue_time = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    posts = db.relationship('Post', backref='user', cascade='all')

@@ -5,7 +5,7 @@ from flask import jsonify
 
 
 @app.errorhandler(400)
-def handler(exc):
+def bad_request_handler(exc):
     """
     Handles the response error when the response status code is 400
     which means a bad request, for example when the request body the was sent
@@ -19,7 +19,7 @@ def handler(exc):
 
 
 @app.errorhandler(401)
-def handler(exc):
+def unauthorized_handler(exc):
     """
     Handles the response error when the response status code is 401
     which means that the user in not authenticated to access protected resources
@@ -44,7 +44,7 @@ def handler(exc):
     }), exc.code
 
 @app.errorhandler(404)
-def handler(exc):
+def not_found_handler(exc):
     """
     Handles the response error when the response status code is 404
     which means that the resource that the user is looking for doesn't exist
