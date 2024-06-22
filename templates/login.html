@@ -1,9 +1,45 @@
 <!DOCTYPE html>
-<html> 
-  <head>
-    <!--Will be implemented soon-->
-  </head>
-  <body>
+<html>
+<head>
+  <title>Login</title>
+  <link rel="icon" href="../static/images/tech_tales_icon.JPG" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../static/styles/login.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 
-  </body>
+</head>
+<body>
+  <header></header>
+  <div class="body_wrapper">
+    <section class="login_section">
+      <div class="intro_text">
+        <h2>Welcome Back to Tech Tales</h2>
+        <p>Log in to access your account and explore the latest tech news.</p>
+      </div>
+      <form id="login_form" novalidate>
+        <h1>Login</h1>
+        <div class="form-group">
+          <div class="input_group">
+            <i class="fas fa-envelope"></i>
+            <input id="login_email" class="form-control" placeholder="Your email" type="text" required>
+          </div>
+        </div>
+        <div class="form_group">
+          <div class="input_group">
+            <i class="fas fa-lock"></i>
+            <input id="login_password" class="form-control" placeholder="Enter your password" type="password" required>
+          </div>
+        </div>
+        <button id="login_submit" type="submit" class="btn btn-primary btn-block">Login</button>
+        <div class="sign_up_redirect text-center mt-3">
+          Don't have an account? <a href="sign_up.html">Sign up</a>
+        </div>
+      </form>
+    </section>
+  </div>
+  <script src="../static/scripts/login.js"></script>
+</body>
 </html>
