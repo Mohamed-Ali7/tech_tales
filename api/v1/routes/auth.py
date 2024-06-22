@@ -115,7 +115,7 @@ def login():
         identity=user.email,
         additional_claims={
             "public_id": user.public_id,
-            "admin": False,
+            "admin": user.admin,
             "issued_at": user.token_issue_time.isoformat()
             }
         )
@@ -135,12 +135,18 @@ def refresh_access():
     """
 
     jwt = get_jwt()
-    identity = jwt.get('identity')
+    identity = jwt.get('sub')
     public_id = jwt.get('public_id')
+    is_admin = jwt.get('admin')
+    token_issue_time = jwt.get('issued_at')
 
     new_access_token = create_access_token(
         identity=identity,
-        additional_claims={"public_id": public_id}
+        additional_claims={
+            "public_id": public_id,
+            "admin": is_admin,
+            "issued_at": token_issue_time
+            }
         )
 
     return jsonify({"access_token": new_access_token}), 200

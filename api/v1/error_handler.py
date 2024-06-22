@@ -38,8 +38,6 @@ def handler(exc):
     to access a specific resource or perform a specific process
     """
 
-    print("HEEEEEEEEEEEEEEEEEEEEEERE")
-
     return jsonify({
         "status_code": exc.code,
         "message": exc.description
@@ -68,7 +66,7 @@ def missing_token(error):
     return jsonify({
         "status_code": 401,
         "message": "Missing Authorization Header"
-        })
+        }), 401
 
 
 @jwt.invalid_token_loader
