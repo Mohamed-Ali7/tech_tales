@@ -7,7 +7,8 @@ class BaseModel():
 
         if kwargs:
             for key, value in kwargs.items():
-                if key in ['joined_at', 'created_at', 'updated_at']:
+                if key in ['joined_at', 'created_at', 'updated_at', 'id'
+                           'user_id', 'post_id', 'public_id']:
                     continue
                 if key in self.__class__.__dict__:
                     setattr(self, key, value)
@@ -17,8 +18,8 @@ class BaseModel():
         new_dict = {}
         for attr in vars(self.__class__):
             if (attr.startswith('_')) or\
-                attr in ["to_dict", "id", "password", "admin", "user", "user_id",
-                         "posts", "token_issue_time"]:
+                attr in ["to_dict", "password", "admin", "user", "user_id",
+                         "posts", "comments", "post", "token_issue_time"]:
                 continue
 
             new_dict[attr] = getattr(self, attr)
@@ -27,7 +28,7 @@ class BaseModel():
             new_dict["joined_at"] = new_dict["joined_at"].strftime('%Y-%m-%d %H:%M:%S')
         if "created_at" in new_dict and new_dict.get('created_at', ''):
             new_dict["created_at"] = new_dict["created_at"].strftime('%Y-%m-%d %H:%M:%S')
-        if "updated_at" in new_dict and new_dict.get('created_at', ''):
+        if "updated_at" in new_dict and new_dict.get('updated_at', ''):
             new_dict["updated_at"] = new_dict["updated_at"].strftime('%Y-%m-%d %H:%M:%S')
 
         return new_dict

@@ -32,14 +32,13 @@ def create_post():
     new_post = Post(
         title=body.get('title'),
         content=body.get('content'),
-        user_id=user.id,
-        created_at=datetime.utcnow(),
-        updated_at=datetime.utcnow()
+        user_id=user.id
     )
-    serialized_post = new_post.to_dict()
-
+    
     db.session.add(new_post)
     db.session.commit()
+
+    serialized_post = new_post.to_dict()
 
     return jsonify(serialized_post), 201
 
@@ -67,10 +66,14 @@ def get_posts():
 @posts.route('/posts/<id>', methods=['GET'], strict_slashes=False)
 def get_post(id):
     """Returns a specific post with a specific public_id"""
-    post = Post.query.filter_by(public_id=id).first()
+    post = Post.query.filter_by(id=id).first()
     if not post:
         abort(404, 'This post does not exist')
-    return jsonify(post.to_dict())
+
+    serialized_post = post.to_dict()
+    serialized_post['user'] = post.user.to_dict()
+
+    return jsonify(serialized_post)
 
 
 @posts.route('/posts/<id>', methods=['PUT'], strict_slashes=False)

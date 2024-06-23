@@ -72,7 +72,11 @@ def register_user():
     db.session.add(new_user)
     db.session.commit()
 
-    return jsonify(new_user.to_dict()), 201
+    serialized_user = new_user.to_dict()
+    if 'id' in serialized_user:
+        del serialized_user['id']
+
+    return jsonify(serialized_user), 201
 
 
 @auth.route("/login", methods=["POST"], strict_slashes=False)
