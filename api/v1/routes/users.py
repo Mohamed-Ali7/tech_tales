@@ -28,7 +28,10 @@ def get_users():
     serialized_users = []
 
     for user in users:
-        serialized_users.append(user.to_dict())
+        user = user.to_dict()
+        if 'id' in user:
+            del user['id']
+        serialized_users.append(user)
 
     return jsonify({"users": serialized_users}), 200
 
@@ -41,7 +44,12 @@ def get_user(public_id):
     if not user:
         abort(404, 'This user does not exist')
 
-    return jsonify(user.to_dict())
+    serialized_user = user.to_dict()
+
+    if 'id' in serialized_user:
+        del serialized_user['id']
+
+    return jsonify(serialized_user), 200
 
 
 @users.route('/users/<public_id>', methods=['PUT'], strict_slashes=False)
@@ -80,7 +88,12 @@ def update_user(public_id):
 
     db.session.commit()
 
-    return jsonify(user.to_dict())
+    serialized_user = user.to_dict()
+
+    if 'id' in serialized_user:
+        del serialized_user['id']
+
+    return jsonify(serialized_user), 200
 
 
 @users.route('/users/<public_id>', methods=['DELETE'], strict_slashes=False)

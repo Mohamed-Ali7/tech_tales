@@ -20,3 +20,5 @@ class User(db.Model, BaseModel):
     token_issue_time = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     posts = db.relationship('Post', backref='user',
                             cascade='all, delete-orphan', lazy=True)
+    comments = db.relationship('Comment', backref='user',
+                               cascade='all, delete-orphan', lazy=True)

@@ -24,13 +24,16 @@ jwt = JWTManager(app)
 from api.v1.routes.auth import auth
 from api.v1.routes.users import users
 from api.v1.routes.posts import posts
+from api.v1.routes.comments import comments
 app.register_blueprint(auth)
 app.register_blueprint(users)
 app.register_blueprint(posts)
+app.register_blueprint(comments)
 
 # importing the User class so the sqlalchemy can see it and create a table for it
 from api.v1.models.user import User
 from api.v1.models.token_black_list import TokenBlacklist
 from api.v1.models.post import Post
+from api.v1.models.comment import Comment
 
 db.create_all()
