@@ -30,6 +30,7 @@ def unauthorized_handler(exc):
         "message": exc.description
     }, exc.code
 
+
 @app.errorhandler(403)
 def handler(exc):
     """
@@ -43,6 +44,7 @@ def handler(exc):
         "message": exc.description
     }), exc.code
 
+
 @app.errorhandler(404)
 def not_found_handler(exc):
     """
@@ -52,8 +54,22 @@ def not_found_handler(exc):
 
     return {
         "status_code": exc.code,
-        "message": "The page you are looking for not found"
+        "message": exc.description if exc.description else
+        "The page you are looking for not found"
     }, exc.code
+
+
+@app.errorhandler(Exception)
+def bad_request_handler(exc):
+    """
+    Handles the response error when the response status code is 500
+    which means an internal error happened in the server
+    """
+
+    return {
+        "status_code": 500,
+        "message": str(exc)
+        }, 500
 
 
 @jwt.unauthorized_loader

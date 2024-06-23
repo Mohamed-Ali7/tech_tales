@@ -1,11 +1,10 @@
 """This module handles users Posts apis"""
 
-from flask import Blueprint, abort, jsonify, request
+from flask import Blueprint, abort, jsonify, request, g
 from api.v1 import db
 from api.v1.models.user import User
 from api.v1.models.post import Post
 from flask_jwt_extended import jwt_required, get_jwt
-import uuid
 from datetime import datetime
 
 posts = Blueprint(name='posts', import_name=__name__, url_prefix='/api/v1')
@@ -26,45 +25,70 @@ def create_post():
     if 'content' not in body:
         abort(400, description="Missing content")
 
-    current_user_public_id = get_jwt().get('public_id')
-    user = User.query.filter_by(public_id=current_user_public_id).first()
+    user = g.current_user
     if not user:
-        abort(400, 'This user does not exist')
+        abort(404, 'This user does not exist')
 
     new_post = Post(
-        public_id=uuid.uuid4(),
         title=body.get('title'),
         content=body.get('content'),
         user_id=user.id,
         created_at=datetime.utcnow(),
         updated_at=datetime.utcnow()
     )
+    serialized_post = new_post.to_dict()
 
     db.session.add(new_post)
     db.session.commit()
 
-    return jsonify(new_post.to_dict()), 201
+    return jsonify(serialized_post), 201
 
-@posts.route('/posts/<public_id>', methods=['GET'], strict_slashes=False)
-def get_post(public_id):
+
+@posts.route('/posts', strict_slashes=False)
+def get_posts():
+    """Return all posts"""
+
+    page = request.args.get("page", default=1, type=int)
+    per_page = request.args.get("per_page", default=15, type=int)
+
+    posts = Post.query.paginate(page = page, per_page=per_page)
+
+    serialized_posts = []
+
+    for post in posts:
+        serialized_user = post.user.to_dict()
+        post = post.to_dict()
+        post['user'] = serialized_user
+        serialized_posts.append(post)
+
+    return jsonify({"posts": serialized_posts}), 200
+
+
+@posts.route('/posts/<id>', methods=['GET'], strict_slashes=False)
+def get_post(id):
     """Returns a specific post with a specific public_id"""
-    post = Post.query.filter_by(public_id=public_id).first()
+    post = Post.query.filter_by(public_id=id).first()
     if not post:
-        abort(400, 'This post does not exist')
+        abort(404, 'This post does not exist')
     return jsonify(post.to_dict())
 
-@posts.route('/posts/<public_id>', methods=['PUT'], strict_slashes=False)
-@jwt_required()
-def update_post(public_id):
-    """Updates a specific post with a specific public_id"""
-    current_user_public_id = get_jwt().get('public_id')
-    user = User.query.filter_by(public_id=current_user_public_id).first()
-    if not user:
-        abort(400, 'This user does not exist')
 
-    post = Post.query.filter_by(public_id=public_id, user_id=user.id).first()
+@posts.route('/posts/<id>', methods=['PUT'], strict_slashes=False)
+@jwt_required()
+def update_post(id):
+    """Updates a specific post with a specific id"""
+
+    user = g.current_user
+
+    if not user:
+        abort(404, 'This user does not exist')
+
+    post = Post.query.filter_by(id=id).first()
     if not post:
-        abort(400, 'This post does not exist or you are not authorized to update it')
+        abort(404, 'This post does not exist')
+
+    if user.id != post.user_id:
+        abort(403, 'You are not authorized to perform this process (Update post)')
 
     try:
         body = request.get_json()
@@ -73,7 +97,7 @@ def update_post(public_id):
     except Exception as e:
         abort(400, description="Not a JSON")
 
-    ignore = ['id', 'public_id', 'user_id', 'created_at', 'updated_at']
+    ignore = ['id', 'user_id', 'created_at', 'updated_at']
 
     for key, value in body.items():
         if key in ignore:
@@ -86,18 +110,22 @@ def update_post(public_id):
 
     return jsonify(post.to_dict()), 200
 
-@posts.route('/posts/<public_id>', methods=['DELETE'], strict_slashes=False)
-@jwt_required()
-def delete_post(public_id):
-    """Deletes a specific post with a specific public_id"""
-    current_user_public_id = get_jwt().get('public_id')
-    user = User.query.filter_by(public_id=current_user_public_id).first()
-    if not user:
-        abort(400, 'This user does not exist')
 
-    post = Post.query.filter_by(public_id=public_id, user_id=user.id).first()
+@posts.route('/posts/<id>', methods=['DELETE'], strict_slashes=False)
+@jwt_required()
+def delete_post(id):
+    """Deletes a specific post with a specific public_id"""
+
+    user = g.current_user
+    if not user:
+        abort(404, 'This user does not exist')
+
+    post = Post.query.filter_by(id=id).first()
     if not post:
-        abort(400, 'This post does not exist or you are not authorized to delete it')
+        abort(404, 'This post does not exist')
+
+    if user.id != post.user_id:
+        abort(403, 'You are not authorized to perform this process (Delete post)')
 
     db.session.delete(post)
     db.session.commit()

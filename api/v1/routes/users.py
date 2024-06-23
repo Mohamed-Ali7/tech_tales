@@ -2,6 +2,7 @@
 
 from api.v1 import db
 from api.v1.models.user import User
+from api.v1.models.post import Post
 from flask import Blueprint, request, jsonify, abort
 from flask_jwt_extended import jwt_required, get_jwt
 from datetime import datetime
@@ -38,7 +39,7 @@ def get_user(public_id):
     user = User.query.filter_by(public_id = public_id).first()
 
     if not user:
-        abort(400, 'This user does not exist')
+        abort(404, 'This user does not exist')
 
     return jsonify(user.to_dict())
 
@@ -57,7 +58,7 @@ def update_user(public_id):
 
     user = User.query.filter_by(public_id = public_id).first()
     if not user:
-        abort(400, 'This user does not exist')
+        abort(404, 'This user does not exist')
 
     try:
         user_payload = request.get_json()
@@ -97,13 +98,36 @@ def delete_user(public_id):
 
     user = User.query.filter_by(public_id = public_id).first()
     if not user:
-        abort(400, 'This user does not exist')
+        abort(404, 'This user does not exist')
 
     db.session.delete(user)
 
     db.session.commit()
 
     return jsonify({"messege": "The user has been deleted successfully"}), 200
+
+
+@users.route('/users/<public_id>/posts', strict_slashes=False)
+def get_user_posts(public_id):
+    """Get all the posts of a specific user"""
+
+    user = User.query.filter_by(public_id=public_id).first()
+    if not user:
+        abort(404, 'This user does not exist')
+
+    page = request.args.get('page', default=1, type=int)
+    per_page = request.args.get('per_page', default=3, type=int)
+
+    user_posts = Post.query.filter_by(user_id=user.id)\
+        .order_by(db.desc(Post.created_at)).paginate(page=page, per_page=per_page)
+
+    serialized_user_posts = []
+
+    for post in user_posts:
+        post = post.to_dict()
+        serialized_user_posts.append(post)
+
+    return jsonify({"user_posts": serialized_user_posts}), 200
 
 
 @users.route('/users/<user_public_id>/edit/password', methods=['PUT'],
@@ -132,7 +156,7 @@ def change_password(user_public_id):
     email = get_jwt().get('sub')
     user = User.query.filter_by(email = email).first()
     if not user:
-        abort(400, 'This user does not exist')
+        abort(404, 'This user does not exist')
 
     try:
         payload = request.get_json()
