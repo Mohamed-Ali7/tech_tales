@@ -10,3 +10,6 @@ class TokenBlacklist(db.Model):
 
     id = db.Column(db.Integer(), primary_key=True)
     jti = db.Column(db.String(100), nullable=False)
+
+    def __init__(self, jti):
+        self.jti = jti

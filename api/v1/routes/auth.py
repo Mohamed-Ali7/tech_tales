@@ -15,11 +15,12 @@ from api.v1.models.token_black_list import TokenBlacklist
 
 auth = Blueprint('auth', __name__, url_prefix='/api/v1/auth')
 
+
 @auth.route('/register', methods=['POST'], strict_slashes=False)
 def register_user():
     """
     Register a new user and add to the database
-    
+
     Expected data:
         email (str): User's email address
         password (str): User's password
@@ -97,14 +98,14 @@ def login():
             abort(400, description="Not a JSON")
     except Exception as e:
         abort(400, description="Not a JSON")
-    
+
     email = user_payload.get("email")
     password = user_payload.get("password")
 
     user = User.query.filter_by(email=email).first()
 
-    if not user or not\
-        bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
+    if not user or not bcrypt.checkpw(password.encode('utf-8'),
+                                      user.password.encode('utf-8')):
         abort(401, description="Unauthorized: Invalid username or password")
 
     access_token = create_access_token(

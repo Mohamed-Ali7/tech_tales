@@ -32,7 +32,7 @@ def unauthorized_handler(exc):
 
 
 @app.errorhandler(403)
-def handler(exc):
+def forbidden_handler(exc):
     """
     Handles the response error when the response status code is 403
     which means that the user is authenticated but not authorized
@@ -60,7 +60,7 @@ def not_found_handler(exc):
 
 
 @app.errorhandler(Exception)
-def bad_request_handler(exc):
+def internal_server_handler(exc):
     """
     Handles the response error when the response status code is 500
     which means an internal error happened in the server
@@ -73,7 +73,7 @@ def bad_request_handler(exc):
 
 
 @jwt.unauthorized_loader
-def missing_token(error):
+def unauthorized_token(error):
     """
     Loader function that invoked when the (Authorization) header is
     not provided
@@ -96,7 +96,7 @@ def invalid_token(error):
 
 
 @jwt.expired_token_loader
-def token_expired(jwt_header, jwt_data):
+def expired_token(jwt_header, jwt_data):
     """Loader function that invoked when the provided jwt token is expired"""
 
     return jsonify({
