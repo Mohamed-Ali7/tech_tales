@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  </head>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+    <link rel="stylesheet" href="../static/styles/post.css">
+    <link rel="stylesheet" href="../static/styles/post_form.css">
+    <link rel="stylesheet" href="../static/styles/post_comments.css">
+  <body>
+    <main>
+      <header>
+        <div class="logo"></div>
+        <div class="header_nav">
+        </div>
+      </header>
+
+      <article class="post_details">
+        <div class="post_top">
+          <div class="post_header">
+            <p class="post_title"></p>
+            
+          </div>
+          <div class="post_info">
+            <span class="posted_by"></span>
+            <span class="post_date"></span>
+          </div>
+        </div>
+        <div class="post_content"></div>
+        <section class="comments_section">
+          <h3 class="comments_text">Comments<hr></h3>
+          
+          <div class="post_comments"></div>
+          <div class="add_comment_group">
+            <h4>Leave a comment</h4>
+          </div>   
+        </section>
+      </article>
+      <div id="edit_comment_popup">
+        <div class="popup_content">
+          <h4>Edit Comment</h4>
+          <textarea class="popup_comment_content"></textarea>
+        </div>
+        <div class="popup_footer">
+          <button class="popup_save_comment_button">Save</button>
+          <button class="comment_popup_close_button">Cancel</button>
+        </div>
+      </div>
+    </main>
+    
+    <script src="../static/scripts/main.js"></script>
+    <script src="../static/scripts/common.js"></script>
+    <script src="../static/scripts/post.js"></script>
+  </body>
+
+</html>

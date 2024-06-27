@@ -14,18 +14,48 @@ html, body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0.5); /* Add overlay for better readability */
 }
 
 header {
     width: 100%;
-    height: 70px;
-    background-color: white;
-    background-image: url("../images/tech_tales_logo.JPG");
+    height: 60px;
+    background-color: #4caf4fbb;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    height: 100%;
+    min-width: 220px;
+    background-image: url("../images/tech_tales_logo.png");
     background-size: 150px;
     background-repeat: no-repeat;
-    background-position: left 20px center;
-    box-sizing: border-box;
+    background-position: center center;
+    margin-left: 50px;
+    margin-right: 100px;
+}
+
+header .home_button {
+    border-radius: 5px;
+    border: none;
+    background-color: white;
+    color: #4CAF50;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-right: 100px;
+    padding: 9px;
+}
+
+.home_button:hover {
+    background-color: #1dad8e;
+    color: white;
+}
+
+.home_button:focus {
+    outline: none;
 }
 
 .login_section {

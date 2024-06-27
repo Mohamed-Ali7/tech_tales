@@ -1,0 +1,124 @@
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 70px;
+}
+
+header {
+  width: 100%;
+  height: 60px;
+  background-color: #4caf4fbb;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  height: 100%;
+  min-width: 220px;
+  background-image: url("../images/tech_tales_logo.png");
+  background-size: 150px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  margin-left: 50px;
+  margin-right: 100px;
+}
+
+.header_nav {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-right: 100px;
+  box-sizing: border-box;
+}
+
+header .login_button,
+header .signup_button,
+header .logout_button,
+header .home_button {
+  border-radius: 5px;
+  border: none;
+  background-color: white;
+  color: #4CAF50;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-left: 20px;
+  padding: 9px;
+}
+
+.nav_profile_pic {
+  height: 60px;
+  width: 60px;
+  background-image: url("../images/user_profile_pic.png");
+  background-size: 30px;
+  background-repeat: no-repeat;
+  background-position: left 20px center;
+  cursor: pointer;
+}
+
+.post_details {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 65%;
+  gap: 60px;
+}
+
+.post_details .post_top {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+
+.post_details {
+  margin-bottom: 4px;
+  font-size: 40px;
+}
+
+.post_header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.post_title {
+  margin: 0;
+}
+
+.edit_post_button {
+  display: block;
+  width: 15%;
+  border-radius: 5px;
+  border: none;
+  background-color: #038b08;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.edit_post_button:hover {
+  background-color: #4CAF50;
+}
+
+.post_details .post_info {
+  font-size: 13px;
+  margin-top: 6px;
+}
+
+.post_details .post_content {
+  font-size: 20px;
+  line-height: 1.5;
+  margin-bottom: 50px;
+}
+

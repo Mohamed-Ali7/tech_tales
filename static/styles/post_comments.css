@@ -1,0 +1,149 @@
+section.comments_section {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+  
+  .post_details .comments_text {
+    font-size: 25px;
+  }
+  
+  .comments_text hr {
+    border-top: 2px solid black;
+  }
+  
+  .post_comments {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    width: 70%;
+  }
+  
+  .post_comments .comment_head {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+  }
+  
+  .edit_comment_button {
+    border-radius: 5px;
+    border: none;
+    background-color: #009bca;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  
+  .post_comments .comment_user {
+    display: flex;
+    gap: 15px;
+    font-size: 14px;
+    align-items: end;
+  }
+  
+  .post_comments .comment img {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .comment_content {
+    padding-left: 52px;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  
+  .comments_section .add_comment_group {
+    margin-top: 30px;
+    margin-bottom: 50px;
+  }
+  .comments_section .add_comment_group h4 {
+    font-size: 22px;
+    margin-bottom: 12px;
+  }  
+  .comments_section .add_comment_group p{
+    font-size: 17px;
+  }
+
+  .comments_section #comment_area {
+    width: 70%;
+    min-height: 200px;
+    border-radius: 10px;
+    outline: none;
+    padding: 25px;
+    font-size: 18px;
+  }
+  
+  .comments_section .add_comment_button {
+    display: block;
+    border-radius: 5px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    padding: 9px;
+    margin-top: 20px;
+  
+  }
+  
+  
+  #edit_comment_popup {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .popup_content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    background-color: #fff;
+    margin: 10% auto;
+    margin-bottom: 30px;
+    padding: 20px;
+    width: 50%;
+    border-radius: 10px;
+  }
+  
+.popup_content h4 {
+  margin-bottom: 0;
+}
+
+  .popup_content textarea {
+    width: 90%;
+    min-height: 150px;
+    outline: none;
+    font-size: 17px;
+    padding: 10px;
+    font: inherit;
+    border-radius: 10px;
+  }
+  
+  .popup_footer {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    padding: 10px;
+  }
+  
+  .popup_footer button {
+    padding: 12px 24px;
+    font-size: 18px;
+    cursor: pointer;
+    border: none;
+    border-radius: 6px;
+    outline: none;
+  }
+  
