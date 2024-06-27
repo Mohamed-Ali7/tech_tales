@@ -38,7 +38,8 @@ def create_comment(post_id):
         content=comment_payload['content'],
         user_id=user.id,
         post_id=post.id,
-        public_user_id=user.public_id
+        public_user_id=user.public_id,
+        user_name = "{} {}".format(user.first_name, user.last_name)
         )    
 
     db.session.add(new_comment)

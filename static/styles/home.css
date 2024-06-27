@@ -1,0 +1,203 @@
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header {
+    width: 100%;
+    height: 60px;
+    background-color: #4caf4fbb;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    height: 100%;
+    min-width: 220px;
+    background-image: url("../images/tech_tales_logo.png");
+    background-size: 150px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    margin-left: 50px;
+    margin-right: 100px;
+}
+
+.header_nav {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-right: 100px;
+    box-sizing: border-box;
+}
+
+header .login_button,
+header .signup_button,
+header .logout_button,
+header .home_button {
+    border-radius: 5px;
+    border: none;
+    background-color: white;
+    color: #4CAF50;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 20px;
+    padding: 9px;
+}
+
+.nav_profile_pic {
+    height: 60px;
+    width: 60px;
+    background-image: url("../images/user_profile_pic.png");
+    background-size: 30px;
+    background-repeat: no-repeat;
+    background-position: left 20px center;
+    cursor: pointer;
+}
+
+.write_button_group {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 10px;
+
+}
+
+.fixed {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 10px;
+    right: 15px;
+    top: 20px;
+    background-color: rgba(255, 182, 182, 0.534);
+}
+
+.write_button_group:hover {
+    background-color: #93ff728e;
+}
+
+.write_img {
+    width: 35px;
+    height: 35px;
+    margin-bottom: 6px;
+}
+
+.write_button {
+    border-radius: 5px;
+    border: none;
+    color: rgb(0, 132, 255);
+    background-color: rgba(255, 255, 255, 0);
+    font-size: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 4px;
+}
+
+.intro {
+    text-align: center;
+    color: rgb(88, 88, 88);
+    font-size: 32px;
+    margin-top: 50px;
+    padding: 10px;
+    background-color: #4caf4f18;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+.posts {
+    display: flex;
+    justify-content: center;
+    background-color: #4caf4f18;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    border-radius: 10px;
+    margin: 60px;
+}
+
+.post_card {
+    display: flex;
+    flex-direction: column;
+    width: 35%;
+    background-color: white;
+    align-content: flex-start;
+    border-radius: 10px;
+    padding-top: 10px;
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-bottom: 40px;
+    margin: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+.post_card .post_title {
+    font-size: 20px;
+}
+
+.post_card .post_content {
+    color: rgb(95, 91, 91);
+    font-size: 15px;
+    max-height: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    line-height: 1.5em;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+}
+
+.post_user {
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.post_user img {
+    width: 40px;
+    height: 40px;
+}
+
+.post_info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: start;
+    margin-left: 25px;
+}
+
+.post_info .posted_by {
+    margin: 0;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.post_info .post_date {
+    margin: 0;
+    font-size: 13px;
+    color: gray;
+}
+
+@media screen and (max-width: 780px) {
+    .post_card {
+        width: 350px;
+        margin: 10px 0;
+    }
+
+    .header_nav {
+        margin-right: 20px;
+    }
+}

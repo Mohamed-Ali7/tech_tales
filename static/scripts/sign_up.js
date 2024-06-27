@@ -1,5 +1,9 @@
 $(document).ready(function () {
 
+  $('header .home_button').click(function () {
+    window.location = "home.html"
+  })
+
   function validateEmail(email) {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email);

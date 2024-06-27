@@ -1,5 +1,9 @@
 $(document).ready(function () {
 
+  $('header .home_button').click(function () {
+    window.location = "home.html"
+  })
+
   function validateEmail(email) {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email);
@@ -63,7 +67,7 @@ $(document).ready(function () {
         success: function (data) {
           Cookies.set('access_token', data.tokens.access_token, { 'expires': 10 })
           Cookies.set('refresh_token', data.tokens.refresh_token, { 'expires': 10 })
-          window.location = 'index.html';
+          window.location = 'home.html';
         }
       }).fail(function (response) {
         $('#login_email').addClass('error');
