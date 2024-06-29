@@ -16,7 +16,7 @@ section.comments_section {
     display: flex;
     flex-direction: column;
     gap: 50px;
-    width: 70%;
+    width: 80%;
   }
   
   .post_comments .comment_head {
@@ -25,17 +25,39 @@ section.comments_section {
     margin-bottom: 30px;
   }
   
-  .edit_comment_button {
+  .comment_buttons {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+  }
+
+  .edit_comment_button,
+  .delete_comment_button {
     border-radius: 5px;
     border: none;
-    background-color: #009bca;
+    background-color: #0080a7;
     color: white;
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding: 8px;
+    padding-right: 13px;
+    padding-left: 13px;
   }
+
+  .delete_comment_button {
+    background-color: rgb(177, 23, 23);
+  }
+  
+  .delete_comment_button:hover {
+    background-color: rgba(177, 23, 23, 0.603);
+  }
+  
+  
+  .edit_comment_button:hover {
+    background-color: #0080a7a8;
+  }
+
   
   .post_comments .comment_user {
     display: flex;

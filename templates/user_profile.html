@@ -1,13 +1,69 @@
 <!DOCTYPE html>
 <html>
-
   <head>
-    <title>Profile</title>
-    <!--Will be implemented soon-->
+    <title>Tech Tales</title>
+    <link rel="icon" href="../static/images/tech_tales_icon.png"/>
+    <link rel="stylesheet" href="../static/styles/user_profile.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
   </head>
-
   <body>
-
+    <header>
+      <div class="logo" onclick="window.location='home.html'"></div>
+      <div class="header_nav">
+      </div>
+    </header>
+      <main>
+      <div class="user_box">
+        <div class="user_bar">
+          <div class="user_info">
+            <img src="../static/images/user_profile_pic.png">
+            <p class="user_name"></p>
+          </div>
+        </div>
+        <div class="user_details">
+          <div class="user_details_nav">
+            <button class="user_about_button">About</button>
+            <button class="user_posts_button">Posts</button>
+          </div>
+          <div class="user_details_box">
+            
+            <div class="user_about_info">
+              <p class="user_first_name">First Name: <span></span></p>
+              <p class="user_last_name">Last Name: <span></span></p>
+              <p class="user_email">Email: <span></span></p>
+              <p class="user_joined_at">Joined at: <span></span></p>
+            </div>
+            <div class="user_posts"></div>
+          </div>
+        </div>
+        <div id="edit_user_popup">
+          <div class="popup_content">
+            <div class="edit_input_group">
+              <span>First Name</span>
+              <div class="validate_input_group">
+                <input class="edit_first_name" placeholder="First name">
+              </div>
+            </div>
+            <div class="edit_input_group">
+              <span>Last Name</span>
+              <div class="validate_input_group">
+                <input class="edit_last_name" placeholder="First name">
+              </div>
+            </div>
+          </div>
+          <div class="popup_footer">
+            <button class="popup_save_user_button">Save</button>
+            <button class="user_popup_close_button">Cancel</button>
+          </div>
+        </div>
+        
+      </div>
+  </main>
+  <script src="../static/scripts/main.js"></script>
+  <script src="../static/scripts/common.js"></script>
+  <script src="../static/scripts/user_profile.js"></script>
   </body>
-
 </html>
