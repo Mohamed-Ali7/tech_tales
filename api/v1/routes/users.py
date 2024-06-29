@@ -140,7 +140,7 @@ def get_user_posts(public_id):
         post = post.to_dict()
         serialized_user_posts.append(post)
 
-    return jsonify({"user_posts": serialized_user_posts}), 200
+    return jsonify({"posts": serialized_user_posts}), 200
 
 
 @users.route('/users/<user_public_id>/edit/password', methods=['PUT'],
@@ -182,18 +182,18 @@ def change_password(user_public_id):
         abort(400, 'The user must provide his old password')
     if 'new_password' not in payload:
         abort(400, 'The user must provide his new password')
-    if 'confirm_password' not in payload:
+    if 'confirm_new_password' not in payload:
         abort(400, 'The user must confirm his new password')
 
     old_password = payload.get('old_password')
     new_password = payload.get('new_password')
-    confirm_password = payload.get('confirm_password')
+    confirm_new_password = payload.get('confirm_new_password')
 
-    if new_password != confirm_password:
+    if new_password != confirm_new_password:
         abort(400, 'The new password and confirm password do not match')
 
     if not bcrypt.checkpw(old_password.encode('utf-8'), user.password.encode('utf-8')):
-        abort(400, 'Incorrect password: Old password does not match your current password')
+        abort(400, 'Incorrect password')
 
     salt = bcrypt.gensalt()
     new_hashed_password = bcrypt.hashpw(new_password.encode('utf-8'), salt)

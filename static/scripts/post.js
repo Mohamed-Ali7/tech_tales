@@ -24,7 +24,10 @@ $(document).ready(function () {
 
     const commentElement = $('<div class="comment"></div>');
     const commentHeadElement = $('<div class="comment_head"></div>');
+
+    const commentButtonsElement = $('<div class="comment_buttons"></div>')
     const editCommentButton = $('<button class="edit_comment_button">Edit</button>');
+    const deleteCommentButton = $('<button class="delete_comment_button">Delete</button>');
 
     const commentUserElement = $('<div class="comment_user"></div>');
     const userProfPicElement = $('<img src="../static/images/user_profile_pic.png">');
@@ -45,7 +48,8 @@ $(document).ready(function () {
     commentHeadElement.append(commentUserElement);
 
     if (comment.public_user_id == currentUserId) {
-      commentHeadElement.append(editCommentButton);
+      commentButtonsElement.append(editCommentButton, deleteCommentButton)
+      commentHeadElement.append(commentButtonsElement);
     }
 
     commentElement.append(commentHeadElement, commentContentElement);
@@ -158,9 +162,29 @@ $(document).ready(function () {
         });
         if (currentUserId == post.user.public_id) {
           const editPostButtonElement = $('<button class="edit_post_button">Edit</button>');
-          $('.post_header').append(editPostButtonElement);
+          const deletePostButtonElement = $('<button class="delete_post_button">Delete</button>');
+          $('.post_buttons').append(editPostButtonElement, deletePostButtonElement);
           $('.edit_post_button').click(function () {
             window.location = `post.html?id=${postId}&edit=True`
+          });
+
+          $('.delete_post_button').click(function () {
+            const confirmation = confirm(
+              'Are you sure you want to delete this post? This action cannot be undone.'
+            );
+            if (!confirmation) {
+              return;
+            }
+            $.ajax({
+              type: 'DELETE',
+              url: `http://localhost:5000/api/v1/posts/${postId}`,
+              success: function (data) {
+                console.log(data.message)
+                window.location = 'home.html';
+              }
+            }).fail(function (response) {
+              console.error(response.responseJSON.message)
+            });
           });
         }
 
@@ -172,6 +196,27 @@ $(document).ready(function () {
 
           $('.comment_popup_close_button').click(function () {
             $('#edit_comment_popup').hide();
+          });
+        });
+
+        $('.post_comments').on('click', '.comment .delete_comment_button', function () {
+          const commentElement = $(this).closest('.comment');
+          const commentId = commentElement.data('id');
+          const confirmation = confirm(
+            'Are you sure you want to delete this comment? This action cannot be undone.'
+          );
+          if (!confirmation) {
+            return;
+          }
+          $.ajax({
+            type: 'DELETE',
+            url: `http://localhost:5000/api/v1/posts/${postId}/comments/${commentId}`,
+            success: function (data) {
+              console.log(data.message)
+              commentElement.remove();
+            }
+          }).fail(function (response) {
+            console.error(response.responseJSON.message)
           });
         });
       }
@@ -227,7 +272,6 @@ $(document).ready(function () {
         })
 
         $('#post_form').submit(function (event) {
-          console.log(postId)
           event.preventDefault();
           const updatedPost = {
             title: $('#post_title').val().trim(),

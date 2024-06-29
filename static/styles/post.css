@@ -30,6 +30,7 @@ header {
   background-position: center center;
   margin-left: 50px;
   margin-right: 100px;
+  cursor: pointer;
 }
 
 .header_nav {
@@ -95,9 +96,17 @@ header .home_button {
   margin: 0;
 }
 
-.edit_post_button {
+.post_buttons {
+  display: flex;
+  gap: 15px;
+  align-items: flex-start;
+  padding-top: 6px;
+}
+
+.edit_post_button,
+.delete_post_button {
   display: block;
-  width: 15%;
+  width: 80px;
   border-radius: 5px;
   border: none;
   background-color: #038b08;
@@ -105,7 +114,18 @@ header .home_button {
   font-size: 18px;
   cursor: pointer;
   transition: background-color 0.3s;
+  max-height: 50px;
+  padding: 9px;
 }
+
+.delete_post_button {
+  background-color: rgb(177, 23, 23);
+}
+
+.delete_post_button:hover {
+  background-color: rgba(177, 23, 23, 0.603);
+}
+
 
 .edit_post_button:hover {
   background-color: #4CAF50;
@@ -121,4 +141,3 @@ header .home_button {
   line-height: 1.5;
   margin-bottom: 50px;
 }
-

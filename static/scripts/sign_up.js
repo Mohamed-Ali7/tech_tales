@@ -1,5 +1,9 @@
 $(document).ready(function () {
 
+  $('.logo').click(function () {
+    window.location = 'home.html';
+  });
+
   $('header .home_button').click(function () {
     window.location = "home.html"
   })
