@@ -218,7 +218,6 @@ $(document).ready(function () {
             success: function (data) {
               Cookies.set('access_token', data.tokens.access_token, { 'expires': 10 })
               Cookies.set('refresh_token', data.tokens.refresh_token, { 'expires': 10 })
-              window.location = 'home.html';
             }
           }).fail(function (response) {
             if (response.responseJSON) {

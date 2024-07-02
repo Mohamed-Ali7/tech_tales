@@ -1,12 +1,130 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
-  <head>
-    <!--Will be implemented soon-->
-  </head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tech Tales</title>
+  <link rel="icon" href="../static/images/tech_tales_icon.png" />
+  <link rel="stylesheet" href="../static/styles/index.css?v1">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+</head>
 
-  <body>
+<body>
+  <header>
+    <div class="container">
+      <nav>
+        <div class="logo"></div>
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#posts">Posts</a></li>
+          <li><a href="login.html" class="login-button">Login</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
-  </body>
+  <section class="hero">
+    <div class="container">
+      <h2>Welcome to TechTales</h2>
+      <p>Discover, Engage, and Learn from the Latest in Technology.</p>
+      <a href="sign_up.html" class="cta-button">Join Now</a>
+    </div>
+  </section>
+
+  <section id="about" class="about">
+    <div class="container">
+      <h2>About TechTales</h2>
+      <p class="about_content">TechTales is your go-to platform for the latest technology news, insightful articles, and engaging discussions.
+        Whether you're a tech enthusiast or a professional, TechTales offers a space to share and expand your knowledge.
+      </p>
+      <div class="team">
+        <h3>Developed By</h3>
+        <div class="team-member">
+            <p>Mohamed Ali</p>
+            <div class="member_links">
+              <a href="https://www.linkedin.com/in/mohamed-ali7/" target="_blank" 
+              class="linkedin_link">LinkedIn</a> | 
+              <a href="https://github.com/Mohamed-Ali7" target="_blank"
+              class="github_link">GitHub</a>
+            </div>
+          </div>
+        <div class="team-member">
+            <p>Olusegun Tayo</p>
+            <div class="member_links">
+              <a href="https://www.linkedin.com/in/your-linkedin-profile" target="_blank" 
+              class="linkedin_link">LinkedIn</a> | 
+              <a href="https://github.com/OluTshegz" target="_blank"
+              class="github_link">GitHub</a>
+            </div>
+          </div>
+    </div>
+    <div class="repo-link">
+        <h3>Project Repository</h3>
+        <a href="https://github.com/Mohamed-Ali7/tech_tales" target="_blank">GitHub Repository</a>
+    </div>
+  </section>
+
+  <section id="features" class="features">
+    <div class="container">
+      <h2>Features</h2>
+      <div class="feature-grid">
+        <div class="feature-item">
+          <div class="img_container">
+            <img src="../static/images/landing_page_features_in-depth_articles.jpg" alt="In-Depth Articles">
+          </div>
+          <h3>In-Depth Articles</h3>
+          <p>Explore comprehensive articles written by tech experts in different tech majors.</p>
+        </div>
+        <div class="feature-item">
+          <div class="img_container">
+            <img src="../static/images/landing_page_community.jpg" alt="In-Depth Articles">
+          </div>
+          <h3>Community Engagement</h3>
+          <p>Engage with other users by leaving comments and participating in discussions.</p>
+        </div>
+
+        <div class="feature-item">
+          <div class="img_container">
+            <img src="../static/images/landing_page_jwt.png" alt="In-Depth Articles">
+          </div>
+          <h3>Secure Authentication</h3>
+          <p>Enjoy secure and easy access with our JWT-based authentication system.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="posts" class="posts">
+    <div class="container">
+      <h2>Latest Posts</h2>
+      <div class="post-grid">
+        <!-- Sample post preview -->
+        <div id="post_item_1">
+          <div class="img_container">
+            <img src="../static/images/google_post_cover.jpg">
+          </div>
+          <h3 class="post_title"></h3>
+          <p class="post_content"></p>
+          <a href="" class="read-more">Read More</a>
+        </div>
+        <div id="post_item_2">
+          <div class="img_container">
+            <img src="../static/images/web_frameworks_post.png">
+          </div>
+          <h3 class="post_title"></h3>
+          <p class="post_content"></p>
+          <a href="" class="read-more">Read More</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer>&copy; 2024 TechTales. All rights reserved.</footer>
+  <script src="../static/scripts/index.js"></script>
+</body>
 
 </html>

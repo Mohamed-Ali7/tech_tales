@@ -14,8 +14,19 @@ $(document).ready(function () {
     var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function (c) {
       return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
     }).join(''));
-  
+
     return JSON.parse(jsonPayload);
+  }
+
+  function showError(input, message) {
+    const errorElement = $('<p class="error_message"></p>').text(message);
+    input.addClass('error');
+    input.after(errorElement);
+  }
+
+  function clearErrors(input) {
+    input.removeClass('error');
+    input.next('.error_message').remove()
   }
 
   function createCommentsElements(comment, postId) {
@@ -39,7 +50,9 @@ $(document).ready(function () {
     commentDateElement.text(formatedCommentDate);
 
     const commentContentElement = $('<p class="comment_content"></p>');
-    commentContentElement.text(comment.content);
+    const formattedContent = comment.content.replace(/\n/g, '<br>');
+
+    commentContentElement.html(formattedContent);
     commentUserElement.append(
       userProfPicElement,
       userNameElement,
@@ -80,7 +93,8 @@ $(document).ready(function () {
   }
 
   function updateComment(commentId, commentCurrentContent, postId) {
-    $('.popup_comment_content').val(commentCurrentContent)
+    const formattedContent = commentCurrentContent.replace(/<br>/g, '\n');
+    $('.popup_comment_content').val(formattedContent)
     $('#edit_comment_popup').show()
     $('.popup_save_comment_button').off('click').on('click', function () {
       const newCommentContent = $('.popup_comment_content').val()
@@ -91,7 +105,8 @@ $(document).ready(function () {
         data: JSON.stringify({ content: newCommentContent }),
         success: function (data) {
           const commentElement = $(`.comment[data-id="${commentId}"]`);
-          commentElement.find('.comment_content').text(newCommentContent);
+          const formattedContent = data.content.replace(/\n/g, '<br>');
+          commentElement.find('.comment_content').html(formattedContent);
           $('#edit_comment_popup').hide();
         }
       }).fail(function (response) {
@@ -112,7 +127,9 @@ $(document).ready(function () {
 
         $('.post_info .post_date').text('at ' + formatedDate)
 
-        $('.post_content').text(post.content)
+        const formattedContent = post.content.replace(/\n/g, '<br>');
+
+        $('.post_content').html(formattedContent)
 
         $.get({
           url: `http://localhost:5000/api/v1/posts/${postId}/comments`,
@@ -120,8 +137,7 @@ $(document).ready(function () {
             const commentElements = []
             const comments = data.comments;
             for (const comment of comments) {
-
-              commentElements.push(createCommentsElements(comment))
+              commentElements.push(createCommentsElements(comment));
             }
             $('.post_comments').append(commentElements);
 
@@ -191,7 +207,7 @@ $(document).ready(function () {
         $('.post_comments').on('click', '.comment .edit_comment_button', function () {
           const commentElement = $(this).closest('.comment');
           const commentId = commentElement.data('id');
-          commentCurrentContent = commentElement.find('.comment_content').text();
+          commentCurrentContent = commentElement.find('.comment_content').html();
           updateComment(commentId, commentCurrentContent, postId);
 
           $('.comment_popup_close_button').click(function () {
@@ -229,12 +245,15 @@ $(document).ready(function () {
 
     const formElement = $('<form id="post_form"></form>');
     const formTitleElement = $('<h1 class="form_title"></h1>').text(status);
+    const postTitleGroup = $('<div class="post_title_group"></div>');
     const postTitleInput = $(
-      '<input type="text" id="post_title" name="title" placeholder="Title" required>'
-    )
+      '<input type="text" id="post_title" name="title" placeholder="Title">'
+    );
+
+    const postContentGroup = $('<div class="post_content_group"></div>');
     const postContentTextArea = $(
-      '<textarea id="post_content" placeholder="Write your post..." rows="10" required></textarea>'
-    )
+      '<textarea id="post_content" placeholder="Write your post..." rows="10"></textarea>'
+    );
 
     const buttonGroupElement = $('<div class="button_group"></div>');
     const saveButtonElement = ('<button type="submit" class="btn btn-primary">Save</button>');
@@ -243,9 +262,11 @@ $(document).ready(function () {
     );
 
     buttonGroupElement.append(saveButtonElement, cancelButtonElement);
+    postTitleGroup.append(postTitleInput);
+    postContentGroup.append(postContentTextArea)
     formElement.append(
-      formTitleElement, postTitleInput,
-      postContentTextArea, buttonGroupElement
+      formTitleElement, postTitleGroup,
+      postContentGroup, buttonGroupElement
     );
     $('main').append(formElement);
   }
@@ -273,12 +294,44 @@ $(document).ready(function () {
 
         $('#post_form').submit(function (event) {
           event.preventDefault();
+          clearErrors($('#post_title'));
+          clearErrors($('#post_content'));
+          const postTitle = $('#post_title').val().trim();
+          const postContent = $('#post_content').val().trim();
+
+          let postTitleIsValid = true;
+          let postContentIsValid = true;
+
+          if (postTitle.length > 250 || !postTitle) {
+            let message = ''
+            if (postTitle) {
+              message = 'Post title cannot be longer than 250 characters';
+            } else {
+              message = 'Post title cannot be empty';
+            }
+            showError($('#post_title'), message);
+            postTitleIsValid = false;
+          } else {
+            clearErrors($('#post_title'));
+            postTitleIsValid = true;
+          }
+
+          if (!postContent) {
+            showError($('#post_content'), 'Post content cannot be empty');
+            postContentIsValid = false;
+          } else {
+            postContentIsValid = true;
+            clearErrors($('#post_content'));
+          }
+
+          if (!postTitleIsValid || !postContentIsValid) {
+            return;
+          }
+
           const updatedPost = {
             title: $('#post_title').val().trim(),
             content: $('#post_content').val().trim()
           };
-
-          $('.can')
 
           $.ajax({
             type: 'PUT',
@@ -307,8 +360,41 @@ $(document).ready(function () {
 
     $('#post_form').submit(function (event) {
       event.preventDefault();
+      clearErrors($('#post_title'));
+      clearErrors($('#post_content'));
+      const postTitle = $('#post_title').val().trim();
+      const postContent = $('#post_content').val().trim();
+
+      let postTitleIsValid = true;
+      let postContentIsValid = true;
+
+      if (postTitle.length > 250 || !postTitle) {
+        let message = ''
+        if (postTitle) {
+          message = 'Post title cannot be longer than 250 characters';
+        } else {
+          message = 'Post title cannot be empty';
+        }
+        showError($('#post_title'), message);
+        postTitleIsValid = false;
+      } else {
+        clearErrors($('#post_title'));
+        postTitleIsValid = true;
+      }
+
+      if (!postContent) {
+        showError($('#post_content'), 'Post content cannot be empty');
+        postContentIsValid = false;
+      } else {
+        postContentIsValid = true;
+        clearErrors($('#post_content'));
+      }
+
+      if (!postTitleIsValid || !postContentIsValid) {
+        return;
+      }
       const newPost = {
-        title: $('#post_title').val().trim(),
+        title: postTitle,
         content: $('#post_content').val().trim()
       };
 
@@ -338,6 +424,11 @@ $(document).ready(function () {
       window.location = 'home.html';
     }
   } else if (urlParams.get('write')) {
+    if (!Cookies.get('access_token')) {
+      alert('You have to login to be able to write your own posts');
+      window.location = 'home.html';
+      return;
+    }
     loadCreateForm();
   } else {
     const postId = urlParams.get('id');
