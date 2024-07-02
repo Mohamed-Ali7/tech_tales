@@ -162,6 +162,12 @@ main .fixed:hover {
 
 .post_card .post_title {
     font-size: 20px;
+    height: 50px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
 }
 
 .post_card .post_content {
