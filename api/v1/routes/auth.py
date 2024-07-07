@@ -1,7 +1,7 @@
 """This module handles users authentication and logging out"""
 
 from flask import Blueprint, abort, jsonify, request
-from api.v1 import db
+from api.v1 import db, mail, app
 from api.v1.models.user import User
 from flask_bcrypt import bcrypt
 from flask_jwt_extended import (create_access_token,
@@ -11,6 +11,8 @@ from flask_jwt_extended import (create_access_token,
                                 decode_token)
 import uuid
 from api.v1.models.token_black_list import TokenBlacklist
+from itsdangerous import URLSafeTimedSerializer
+from flask_mail import Message
 
 
 auth = Blueprint('auth', __name__, url_prefix='/api/v1/auth')
@@ -68,7 +70,11 @@ def register_user():
     if new_user.email == 'admin@techtales.com':
         new_user.admin = True
 
+    token_serializer = URLSafeTimedSerializer(app.config['JWT_SECRET_KEY'])
+    verify_email_token = token_serializer.dumps({'email': new_user.email})
+
     new_user.password = hashed_password
+    send_email_verfication_mail(verify_email_token, new_user)
 
     db.session.add(new_user)
     db.session.commit()
@@ -76,6 +82,7 @@ def register_user():
     serialized_user = new_user.to_dict()
     if 'id' in serialized_user:
         del serialized_user['id']
+
 
     return jsonify(serialized_user), 201
 
@@ -104,10 +111,13 @@ def login():
 
     user = User.query.filter_by(email=email).first()
 
+    if not user.is_active:
+        abort(400, 'Your email is not verified, please verifiy your email to activate your account')
+
     if not user or not bcrypt.checkpw(password.encode('utf-8'),
                                       user.password.encode('utf-8')):
         abort(401, description="Unauthorized: Invalid username or password")
-
+    
     access_token = create_access_token(
         identity=user.email,
         additional_claims={
@@ -188,3 +198,88 @@ def logout():
     db.session.bulk_save_objects(blacklisted_tokens)
     db.session.commit()
     return jsonify({"messege": "User has logged out successfully"}), 200
+
+
+@auth.route('/email-verification/<token>', strict_slashes=False)
+def email_verification(token):
+    """Verifies user's email address to activate user's account"""
+
+    serializer = URLSafeTimedSerializer(app.config['JWT_SECRET_KEY'])
+
+    try:
+        payload = serializer.loads(token, max_age=86400)
+    except Exception:
+        abort(400, 'Email verifcation token is invalid or expired')
+
+    user = User.query.filter_by(email=payload.get('email')).first()
+
+    if not user:
+        abort(404, 'This user does not exist')
+
+    user.is_active = True
+
+    db.session.commit()
+
+    return jsonify({'message': 'Email has been verfied successfully'}), 200
+
+
+@auth.route('/email-verification', methods=['POST'], strict_slashes=False)
+def ask_for_email_verification_mail():
+    """
+    Sends an email verification mail to the user registed email addrss
+
+    Expected data:
+        email (str): user's registerd email to the mail to
+    """
+
+    try:
+        user_payload = request.get_json()
+        if user_payload is None:
+            abort(400, description="Not a JSON")
+    except Exception as e:
+        abort(400, description="Not a JSON")
+
+    email = user_payload.get("email")
+
+    token_serializer = URLSafeTimedSerializer(app.config['JWT_SECRET_KEY'])
+    verify_email_token = token_serializer.dumps({'email': email})
+
+    user = User.query.filter_by(email=email).first()
+
+    if user.is_active:
+        abort(400, 'Your email has been already verified')
+
+    if not user:
+        abort(404, 'This user does not exist')
+
+    send_email_verfication_mail(verify_email_token, user)
+
+    db.session.commit()
+
+    return jsonify({'message': 'Verification mail has send successfully'}), 200
+
+
+def send_email_verfication_mail(token, user):
+    """
+    Sends an email to the user that contains a link to verify his/her email address
+    and activate his/her account
+    """
+
+    msg = Message(subject='Verify Your Email Address', sender='noreply@techtales.com',
+                  recipients=[user.email])
+    link = f"http://localhost:5000/api/v1/auth/email-verification/{token}"
+    msg.html = f"""
+    <h2>Hi {user.first_name},</h2>
+    
+    <p>Thank you for registering with TechTales. Please verify your email address by clicking the link below:</p>
+    
+    <a href={link}>Verify your email</a>
+    
+    <p>If you did not create an account with us, please ignore this email.</p>
+    
+    <p>Thanks,</p>
+    
+    <p>The TechTales Team</p>
+    """
+
+    mail.send(msg)
