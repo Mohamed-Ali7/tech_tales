@@ -37,10 +37,10 @@ section.comments_section {
     border: none;
     background-color: #0080a7;
     color: white;
-    font-size: 16px;
+    font-size: 15px;
     cursor: pointer;
     transition: background-color 0.3s;
-    padding: 8px;
+    padding: 7px 0px 7px 0px;
     padding-right: 13px;
     padding-left: 13px;
   }

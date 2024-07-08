@@ -239,7 +239,7 @@ def password_reset_request():
 
     serializer = URLSafeTimedSerializer(app.config['JWT_SECRET_KEY'])
     token = serializer.dumps({'email':user.email})
-    reset_link = f'http://localhost/password_reset_request.html?token={token}'
+    reset_link = f'http://localhost:5500/templates/password_reset.html?token={token}'
     msg = Message(subject='Password Reset Request', sender='noreply@techtales.com',
                   recipients=[user.email])
     msg.html = f"""
@@ -305,8 +305,7 @@ def password_reset():
 
     password_token = PasswordResetToken.query.filter_by(token = token).first()
     if not password_token:
-        abort(404, 'This password reset token does not exist')
-
+        abort(400, 'This password reset token does not exist')
 
     if new_password != confirm_new_password:
         abort(400, 'The new password and confirm password do not match')
@@ -324,4 +323,4 @@ def password_reset():
     db.session.delete(password_token)
     db.session.commit()
 
-    return jsonify({"Success": "The password has reset successfully"}), 200
+    return jsonify({"message": "The password has been successfully reset"}), 200

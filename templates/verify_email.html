@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verifiy Email</title>
+  <link rel="icon" href="../static/images/tech_tales_icon.png" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../static/styles/verify_email.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+</head>
+
+<body>
+  <main>
+    <header>
+      <div class="logo"></div>
+      <div class="header_nav">
+      </div>
+    </header>
+    <div class="body_wrapper">
+      <section class="email_verification_section">
+        <div class="intro_text">
+          <h2>Verifiy your email</h2>
+          <p>to active your account and explore the latest tech news.</p>
+        </div>
+        <form id="email_verification_form" novalidate>
+          <h1>Email Verification</h1>
+          <div class="form-group">
+            <div class="input_group">
+              <i class="fas fa-envelope"></i>
+              <input id="verify_email" class="form-control" placeholder="Your email" type="text" required>
+            </div>
+          </div>
+          <button id="verify_email_submit" type="submit" class="btn btn-primary btn-block">
+            Send a verification mail
+          </button>
+        </form>
+      </section>
+    </div>
+  </main>
+
+  <script src="../static/scripts/main.js"></script>
+  <script src="../static/scripts/common.js"></script>
+  <script src="../static/scripts/verify_email.js"></script>
+</body>
+
+</html>

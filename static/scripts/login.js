@@ -1,5 +1,6 @@
 $(document).ready(function () {
 
+  
   $('.logo').click(function () {
     window.location = 'home.html';
   });
@@ -49,6 +50,29 @@ $(document).ready(function () {
     }
   }
 
+  function showFlushMessage(message, status) {
+    let flushElement = $('<div class="flush_message"></div').html(message);
+    if (status === 'error') {
+      flushElement.addClass('flush_error');
+    } else {
+      flushElement.removeClass('flush_error');
+    }
+
+    $('#login_form').prepend(flushElement)
+  }
+
+  const flushErrorMessage = sessionStorage.getItem('flush_error_message');
+  const flushMessage = sessionStorage.getItem('flush_message');
+  if (flushErrorMessage || flushMessage) {
+    if (flushErrorMessage) {
+      showFlushMessage(flushErrorMessage, 'error')
+      sessionStorage.removeItem('flush_error_message')
+    } else {
+      showFlushMessage(flushMessage, 'ok')
+      sessionStorage.removeItem('flush_message')
+    }
+  }
+
   $('#login_form').submit((event) => {
     event.preventDefault();
 
@@ -74,12 +98,17 @@ $(document).ready(function () {
           window.location = 'home.html';
         }
       }).fail(function (response) {
-        $('#login_email').addClass('error');
-        $('#login_password').addClass('error');
-        const errorElement = $('<div class="error_message error"></div>')
-          .text('Invalid email or password')
-        $('#login_password').closest('.input_group').after(errorElement)
-        console.log(response.responseJSON)
+        let message;
+        if (response.responseJSON) {
+          message = response.responseJSON.message
+          $('#login_email').addClass('error');
+          $('#login_password').addClass('error');
+          const errorElement = $('<div class="error_message error"></div>')
+            .text(message)
+          $('#login_password').closest('.input_group').after(errorElement)
+        } else {
+          console.error('Something went wrong!')
+        }
       });
     }
   })

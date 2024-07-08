@@ -109,13 +109,13 @@ header .home_button {
   width: 80px;
   border-radius: 5px;
   border: none;
-  background-color: #038b08;
+  background-color: #0080a7;
   color: white;
-  font-size: 18px;
+  font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s;
   max-height: 50px;
-  padding: 9px;
+  padding: 7px 9px 7px 9px;
 }
 
 .delete_post_button {
@@ -128,7 +128,7 @@ header .home_button {
 
 
 .edit_post_button:hover {
-  background-color: #4CAF50;
+  background-color: #0080a7a8;
 }
 
 .post_details .post_info {

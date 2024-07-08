@@ -111,13 +111,13 @@ def login():
 
     user = User.query.filter_by(email=email).first()
 
-    if not user.is_active:
-        abort(400, 'Your email is not verified, please verifiy your email to activate your account')
-
     if not user or not bcrypt.checkpw(password.encode('utf-8'),
                                       user.password.encode('utf-8')):
-        abort(401, description="Unauthorized: Invalid username or password")
-    
+        abort(401, description="Invalid email or password")
+
+    if not user.is_active:
+        abort(400, 'Your email is not verified')
+
     access_token = create_access_token(
         identity=user.email,
         additional_claims={
@@ -220,7 +220,7 @@ def email_verification(token):
 
     db.session.commit()
 
-    return jsonify({'message': 'Email has been verfied successfully'}), 200
+    return jsonify({'message': 'Your email has been successfully verified'}), 200
 
 
 @auth.route('/email-verification', methods=['POST'], strict_slashes=False)
@@ -246,11 +246,11 @@ def ask_for_email_verification_mail():
 
     user = User.query.filter_by(email=email).first()
 
+    if not user:
+        abort(404, 'This email is not associated with any account')
+
     if user.is_active:
         abort(400, 'Your email has been already verified')
-
-    if not user:
-        abort(404, 'This user does not exist')
 
     send_email_verfication_mail(verify_email_token, user)
 
@@ -267,7 +267,7 @@ def send_email_verfication_mail(token, user):
 
     msg = Message(subject='Verify Your Email Address', sender='noreply@techtales.com',
                   recipients=[user.email])
-    link = f"http://localhost:5000/api/v1/auth/email-verification/{token}"
+    link = f"http://localhost:5500/templates/verify_email.html?token={token}"
     msg.html = f"""
     <h2>Hi {user.first_name},</h2>
     

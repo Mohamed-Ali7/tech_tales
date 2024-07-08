@@ -141,6 +141,10 @@ $(document).ready(function () {
         contentType: 'application/json',
         data: JSON.stringify(userData),
         success: function (data) {
+          sessionStorage.setItem('flush_message',
+            '<strong>You have signed up successfully,</strong><br>'+
+            'a verification link has sent to your email'
+          )
           window.location = 'login.html'
         }
       }).fail(function (response) {

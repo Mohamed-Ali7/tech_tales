@@ -11,36 +11,47 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+  <script>
+    if (Cookies.get('access_token')) {
+      window.location = 'home.html'
+    }
+  </script>
 </head>
 <body>
-  <header>
-    <div class="logo"></div>
-    <button class="home_button">Home</button>
-    </div>
-  </header>
+  
   <div class="body_wrapper">
+    <header>
+      <div class="logo"></div>
+      <button class="home_button">Home</button>
+    </header>
     <section class="login_section">
       <div class="intro_text">
         <h2>Welcome Back to Tech Tales</h2>
         <p>Log in to access your account and explore the latest tech news.</p>
       </div>
       <form id="login_form" novalidate>
-        <h1>Login</h1>
-        <div class="form-group">
-          <div class="input_group">
-            <i class="fas fa-envelope"></i>
-            <input id="login_email" class="form-control" placeholder="Your email" type="text" required>
+        <div class="form_body">
+          <h1>Login</h1>
+          <div class="form-group">
+            <div class="input_group">
+              <i class="fas fa-envelope"></i>
+              <input id="login_email" class="form-control" placeholder="Your email" type="text" required>
+            </div>
           </div>
-        </div>
-        <div class="form_group">
-          <div class="input_group">
-            <i class="fas fa-lock"></i>
-            <input id="login_password" class="form-control" placeholder="Enter your password" type="password" required>
+          <div class="form_group">
+            <div class="input_group">
+              <i class="fas fa-lock"></i>
+              <input id="login_password" class="form-control" placeholder="Enter your password" type="password" required>
+            </div>
           </div>
-        </div>
-        <button id="login_submit" type="submit" class="btn btn-primary btn-block">Login</button>
-        <div class="sign_up_redirect text-center mt-3">
-          Don't have an account? <a href="sign_up.html">Sign up</a>
+          <button id="login_submit" type="submit" class="btn btn-primary btn-block">Login</button>
+          <div class="links">
+            <a href="verify_email.html">Send a verification mail</a>
+              <div class="sign_up_redirect">
+              Don't have an account? <a href="sign_up.html">Sign up</a>
+            </div>
+            <a href="password_reset_request.html">Forgot my password</a>
+          </div>
         </div>
       </form>
     </section>
