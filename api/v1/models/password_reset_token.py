@@ -9,3 +9,7 @@ class PasswordResetToken(db.Model):
     token = db.Column(db.String(255), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     user = db.relationship('User', lazy=True)
+
+    def __init__(self, token, user_id):
+        self.token = token
+        self.user_id = user_id
